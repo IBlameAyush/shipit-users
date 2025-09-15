@@ -330,7 +330,8 @@ class MusicPlayer {
         const playlistItems = this.playlist.children;
         for (let i = 0; i < playlistItems.length; i++) {
             // BUG LEVEL 4-1: Playlist highlight logic doesn't clear previous highlights
-            if (i === this.currentTrackIndex && this.isPlaying) {
+             playlistItems[i].classList.remove('bg-white/20');
+           if (i === this.currentTrackIndex && this.isPlaying) {
                 playlistItems[i].classList.add('bg-white/20');
             }
         }
