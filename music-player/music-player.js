@@ -197,7 +197,7 @@ class MusicPlayer {
         this.audio.play();
         this.isPlaying = true;
         // BUG LEVEL 1-1: Wrong icon used for pause button
-        this.playPauseBtn.innerHTML = '<i class="fas fa-play text-2xl"></i>';
+        this.playPauseBtn.innerHTML = '<i class="fas fa-pause text-2xl"></i>';
         this.albumArt.classList.remove('paused');
         this.updatePlaylistHighlight();
     }
@@ -300,7 +300,7 @@ class MusicPlayer {
         const minutes = Math.floor(seconds / 60);
         const remainingSeconds = Math.floor(seconds % 60);
         // BUG LEVEL 1-2: Missing colon in time format
-        return `${minutes}${remainingSeconds.toString().padStart(2, '0')}`;
+        return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
     }
 
     renderPlaylist() {
