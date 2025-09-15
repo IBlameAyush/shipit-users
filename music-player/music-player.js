@@ -209,10 +209,19 @@ class MusicPlayer {
         this.albumArt.classList.add('paused');
     }
 
+    
     previousTrack() {
         if (this.isShuffle) {
             // BUG LEVEL 3-1: Shuffle can select the same track repeatedly
-            this.currentTrackIndex = Math.floor(Math.random() * this.tracks.length);
+            let newIndex;
+            if (this.tracks.length > 1) {
+                do {
+                    newIndex = Math.floor(Math.random() * this.tracks.length);
+                } while (newIndex === this.currentTrackIndex);
+                this.currentTrackIndex = newIndex;
+            } else {
+                this.currentTrackIndex = 0;
+            }
         } else {
             this.currentTrackIndex = this.currentTrackIndex > 0 ? this.currentTrackIndex - 1 : this.tracks.length - 1;
         }
@@ -221,7 +230,6 @@ class MusicPlayer {
             this.play();
         }
     }
-
     nextTrack() {
         if (this.isShuffle) {
             this.currentTrackIndex = Math.floor(Math.random() * this.tracks.length);
