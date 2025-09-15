@@ -71,13 +71,20 @@ function createTaskElement(task) {
     taskDiv.className = `p-4 border rounded-lg ${task.completed ? 'bg-green-50 border-green-200' : 'bg-white border-gray-200'}`;
     
     // Level 3 Bug 1: Priority colors not applied correctly
-    let priorityColor = 'gray'; // Bug: Should change based on task.priority but doesn't
+    let priorityColor = 'gray';
+    if (task.priority === 'high') priorityColor = 'red';
+    else if (task.priority === 'medium') priorityColor = 'yellow';
+    else if (task.priority === 'low') priorityColor = 'green';
     
     // Level 3 Bug 2: Date formatting issues with invalid dates
     let dueDateText = '';
     if (task.dueDate) {
-        const date = new Date(task.dueDate + 'T' + task.dueTime);
-        dueDateText = date.toLocaleDateString(); // Bug: Doesn't handle invalid dates
+        const date = new Date(task.dueDate + (task.dueTime ? 'T' + task.dueTime : ''));
+        if (!isNaN(date.getTime())) {
+            dueDateText = date.toLocaleDateString();
+        } else {
+            dueDateText = 'Invalid date';
+        }
     }
     
     taskDiv.innerHTML = `
@@ -132,9 +139,11 @@ function editTask(id) {
 function deleteTask(id) {
     // Level 4 Bug 1: Delete confirmation always shows even when cancelled
     const confirmed = confirm('Are you sure you want to delete this task?');
-    tasks = tasks.filter(t => t.id !== id); // Bug: Deletes even if not confirmed
-    renderTasks();
-    updateCounts();
+    if (confirmed) {
+        tasks = tasks.filter(t => t.id !== id);
+        renderTasks();
+        updateCounts();
+    }
 }
 
 function filterTasks(filter) {
