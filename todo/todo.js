@@ -49,11 +49,14 @@ function renderTasks() {
     taskList.innerHTML = '';
     
     // Level 2 Bug 2: Filter logic is flawed
-    let filteredTasks = tasks;
+    let filteredTasks = [];
     if (currentFilter === 'pending') {
         filteredTasks = tasks.filter(task => !task.completed);
     } else if (currentFilter === 'completed') {
         filteredTasks = tasks.filter(task => task.completed);
+    } else {
+        // Explicitly handle 'all' and any other cases
+        filteredTasks = tasks.slice();
     }
     // Bug: 'all' filter doesn't properly show all tasks in some cases
     
