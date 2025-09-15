@@ -150,9 +150,12 @@ function filterTasks(filter) {
     currentFilter = filter;
     
     // Level 4 Bug 2: Filter buttons don't update active state properly
-    // Bug: Active class management is broken
+    // Fix: Add 'active' class to the clicked filter button
     document.querySelectorAll('.filter-btn').forEach(btn => {
         btn.classList.remove('active');
+        if (btn.dataset.filter === filter) {
+            btn.classList.add('active');
+        }
     });
     
     renderTasks();
