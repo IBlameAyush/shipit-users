@@ -22,9 +22,9 @@ function addTask() {
     }
     
     // Level 2 Bug 1: Task ID collision possible
-    // taskIdCounter might reset or duplicate IDs can occur
+    // Fix: Generate a unique ID using timestamp and random number
     const newTask = {
-        id: taskIdCounter++, // Bug: No check for existing IDs
+        id: Date.now() + Math.floor(Math.random() * 10000),
         text: taskText,
         completed: false,
         priority: prioritySelect.value,

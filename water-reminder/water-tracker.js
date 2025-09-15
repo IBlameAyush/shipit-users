@@ -11,9 +11,14 @@ let waterLog = [];
 // Level 1 Bug 2: Goal input doesn't validate properly
 function setGoal() {
     const goalInput = document.getElementById('goal-input');
-    const newGoal = goalInput.value;
+    const newGoal = parseInt(goalInput.value, 10);
     
-    // Bug: No validation for empty or invalid values
+    // Validate that the input is a positive number
+    if (isNaN(newGoal) || newGoal <= 0) {
+        showNotification('Please enter a valid positive number for your goal.', 'error');
+        goalInput.value = '';
+        return;
+    }
     dailyGoal = newGoal;
     updateProgress();
     showNotification('Goal updated!', 'success');

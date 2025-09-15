@@ -153,21 +153,26 @@ class MusicPlayer {
 
         volumeContainer.addEventListener('click', updateVolume);
 
-        this.volumeHandle.addEventListener('mousedown', (e) => {
-            isDragging = true;
-            e.preventDefault();
-        });
-
-        // BUG LEVEL 5-1: Memory leak - event listeners added to document but never removed
-        document.addEventListener('mousemove', (e) => {
+        const onMouseMove = (e) => {
             if (isDragging) {
                 updateVolume(e);
             }
+        };
+
+        const onMouseUp = () => {
+            isDragging = false;
+            document.removeEventListener('mousemove', onMouseMove);
+            document.removeEventListener('mouseup', onMouseUp);
+        };
+
+        this.volumeHandle.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            e.preventDefault();
+            document.addEventListener('mousemove', onMouseMove);
+            document.addEventListener('mouseup', onMouseUp);
         });
 
-        document.addEventListener('mouseup', () => {
-            isDragging = false;
-        });
+        volumeContainer.addEventListener('click', updateVolume);
     }
 
     loadTrack(index) {
